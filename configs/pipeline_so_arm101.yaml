@@ -1,0 +1,41 @@
+# End-to-end command configuration for SO-ARM101 + LingBot-VLA-4B.
+# This file only describes paths and commands. It does not install environments.
+
+official_repo: ".codex/vendor/lingbot-vla"  # Path to cloned Robbyant/lingbot-vla on the machine that runs training/eval.
+local_config: "configs/local_so_arm101.yaml"
+
+data:
+  # Optional: multiple LeRobot v2.1 recordings with the same SO-ARM101 feature layout.
+  raw_v21_sources: []
+  merged_v21_path: "data/merged_so_arm101_v21"
+
+  # LeRobot v3.0 dataset used by LingBot-VLA.
+  v30_repo_id: "so_arm101_task"
+  v30_root: "data/so_arm101_task_v30"
+
+  # Dataset quality report generated locally before training.
+  quality_report: "reports/data_quality_so_arm101.json"
+
+training:
+  robot_config_name: "so_arm101"
+  vla_config: "configs/vla/so_arm101_vla_task.yaml"
+  model_path: "/data/models/lingbot-vla-4b"
+  tokenizer_path: "/data/models/Qwen2.5-VL-3B-Instruct"
+  norm_stats_file: "assets/norm_stats/so_arm101.json"
+  output_dir: "output/so_arm101"
+  cuda_visible_devices: "0"
+
+evaluation:
+  hf_ckpt: "output/so_arm101/checkpoints/global_step_xxxx/hf_ckpt"
+  validation_data: "data/so_arm101_task_v30"
+  traj_ids: [0, 1, 2, 3, 4]
+  use_length: 50
+  save_plot_path: "open_loop_results/so_arm101"
+
+deployment:
+  qwen25_path: "/data/models/Qwen2.5-VL-3B-Instruct"
+  hf_ckpt: "output/so_arm101/checkpoints/global_step_xxxx/hf_ckpt"
+  port: 8006
+  use_length: 25
+  num_denoising_step: 5
+  use_compile: true

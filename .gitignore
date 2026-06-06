@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.codex/vendor/
+models/
+output/
+open_loop_results/
+assets/norm_stats/*.json

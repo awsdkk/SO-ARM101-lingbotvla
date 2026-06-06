@@ -1,0 +1,15 @@
+[project]
+name = "lingbot-so-arm101"
+version = "0.1.0"
+description = "SO-ARM101 client scaffolding for LingBot-VLA-4B deployment."
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "pyyaml",
+  "websockets",
+  "msgpack",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+

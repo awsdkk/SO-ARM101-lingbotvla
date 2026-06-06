@@ -1,0 +1,36 @@
+# LingBot-VLA robot config for single SO-ARM101.
+# Assumption: observation.state/action layout is [joint_0..joint_5, gripper].
+
+states:
+  - observation.state.arm.position:
+      origin_keys:
+        - observation.state:
+            start: 0
+            end: 6
+
+  - observation.state.effector.position:
+      origin_keys:
+        - observation.state:
+            start: 6
+            end: 7
+
+actions:
+  - action.arm.position:
+      origin_keys:
+        - action:
+            start: 0
+            end: 6
+      subtract_state: true
+
+  - action.effector.position:
+      origin_keys:
+        - action:
+            start: 6
+            end: 7
+      subtract_state: false
+
+images:
+  - observation.images.camera_top:
+      origin_keys: observation.images.camera_top
+  - observation.images.camera_wrist:
+      origin_keys: observation.images.camera_wrist

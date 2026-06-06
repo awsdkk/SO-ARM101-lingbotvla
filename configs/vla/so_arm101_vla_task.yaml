@@ -1,0 +1,42 @@
+model:
+  model_path: /data/models/lingbot-vla-4b
+  tokenizer_path: /data/models/Qwen2.5-VL-3B-Instruct
+
+data:
+  datasets_type: vla
+  data_name: so_arm101
+  train_path: /data/datasets/so_arm101_task
+  joints:
+    - arm.position: 6
+    - effector.position: 1
+  cameras:
+    - camera_top
+    - camera_wrist
+  num_workers: 8
+  norm_type: meanstd
+  norm_stats_file: assets/norm_stats/so_arm101.json
+
+train:
+  output_dir: /data/output/
+  data_parallel_mode: fsdp2
+  enable_full_shard: false
+  module_fsdp_enable: true
+  use_compile: false
+  rmpad: false
+  rmpad_with_pos_ids: false
+  ulysses_parallel_size: 1
+  freeze_vision_encoder: false
+  tokenizer_max_length: 72
+  max_action_dim: 75
+  max_state_dim: 75
+  lr: 2.0e-5
+  lr_decay_style: constant
+  micro_batch_size: 4
+  gradient_accumulation_steps: 4
+  max_steps: 10000
+  ckpt_manager: dcp
+  save_steps: 300
+  enable_fp32: true
+  enable_resume: true
+  train_expert_only: false
+

@@ -1,0 +1,111 @@
+# 本地 SO-ARM101 + LingBot-VLA-4B 推理配置。
+# 这里填你的真实硬件端口、相机 ID、云端服务地址和任务指令。
+
+mode: single            # single 或 dual
+fps: 15
+task: "pick up the object and place it in the target area"
+
+robot:
+  type: so101_follower
+  port: "COM3"
+  id: "so_arm101"
+
+dual_robot:
+  type: bi_so101_follower
+  left_arm:
+    port: "COM3"
+    id: "left_so_arm101"
+  right_arm:
+    port: "COM4"
+    id: "right_so_arm101"
+
+cameras:
+  top:
+    enabled: true
+    key: observation.images.camera_top
+    type: opencv
+    index_or_path: 0
+    width: 640
+    height: 480
+    fps: 30
+  wrist:
+    enabled: true
+    key: observation.images.camera_wrist
+    type: opencv
+    index_or_path: 1
+    width: 640
+    height: 480
+    fps: 30
+  wrist_left:
+    enabled: false
+    key: observation.images.camera_wrist_left
+    type: opencv
+    index_or_path: 1
+    width: 640
+    height: 480
+    fps: 30
+  wrist_right:
+    enabled: false
+    key: observation.images.camera_wrist_right
+    type: opencv
+    index_or_path: 2
+    width: 640
+    height: 480
+    fps: 30
+
+server:
+  host: "ws://127.0.0.1"
+  port: 8006
+  path: ""
+  timeout_seconds: 30
+
+protocol:
+  # 官方 LingBot-VLA WebSocket 服务通常直接接收 observation 字典。
+  # 如果你的服务端封装要求 {"type": "infer", "observation": ...}，再改成 true。
+  wrap_request: false
+  # 官方 WebSocketPolicyServer 建连后会先发 metadata。
+  wait_for_metadata: true
+
+lingbot:
+  robot_config_name: so_arm101
+  actions_per_chunk: 25
+  norm_stats_path: ""
+  norm_type: meanstd
+
+server_launch:
+  qwen25_path: "/data/models/Qwen2.5-VL-3B-Instruct"
+  model_path: "/data/output/checkpoints/global_step_xxxx/hf_ckpt"
+  norm_path: ""
+  use_length: 25
+  num_denoising_step: 5
+  use_compile: true
+  use_bf16: true
+  port: 8006
+
+local_inference:
+  # 本地 24G 4090 推理部署。需要你已经在本机准备好官方 lingbot-vla 环境。
+  official_repo: ".codex/vendor/lingbot-vla"
+  qwen25_path: "E:/models/Qwen2.5-VL-3B-Instruct"
+  model_path: "E:/models/so_arm101_hf_ckpt"
+  norm_path: ""
+  cuda_visible_devices: "0"
+  host: "127.0.0.1"
+  port: 8006
+  use_length: 25
+  num_denoising_step: 5
+  use_compile: true
+  tokenizers_parallelism: "false"
+  health_timeout_seconds: 180
+
+rtc:
+  enabled: true
+  lookahead_ratio: 0.4
+  blend_steps: 5
+  action_ema_alpha: 0.4
+  safety_margin_steps: 2
+  latency_window: 5
+
+safety:
+  max_runtime_seconds: 120
+  require_enter_to_start: true
+  stop_on_empty_action: true
