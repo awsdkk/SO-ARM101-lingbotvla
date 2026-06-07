@@ -75,6 +75,9 @@ src/lingbot_so_arm101/
 ```
 
 ## 前置条件
+可更换不同的末端设备
+<img width="1280" height="1706" alt="96d48961beac52eb41b9d4e5249743a5" src="https://github.com/user-attachments/assets/0c75892a-3190-4a1e-82df-deee8e89e9bb" />
+<img width="1280" height="1706" alt="760b5363e7107169ca9a622690a3a22d" src="https://github.com/user-attachments/assets/3e6991f6-8cc4-490e-a26b-a48f2903525f" />
 
 本仓库不负责安装环境和下载模型。运行前需要准备：
 
