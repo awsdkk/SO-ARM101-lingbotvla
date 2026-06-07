@@ -75,7 +75,7 @@ src/lingbot_so_arm101/
 ```
 
 ## 前置条件
-可更换不同的末端设备
+可更换不同的末端设备，后训练以适配不同任务。
 <table>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/0c75892a-3190-4a1e-82df-deee8e89e9bb" width="400"></td>
